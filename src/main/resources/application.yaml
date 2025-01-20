@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  application:
+   name: mind_forge_back
+  datasource:
+   url: jdbc:postgresql://localhost:5432/postgres
+   username: postgres
+   password: pass
+   driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+
+jwt:
+  secret: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQD6qTgyB5J6uG6MzCh9ALlXLz8xOoQ6XpOm3W8hOvzg74kW7t7Pty5/DtsV04QJHdWuo96AwFZdI7yR
+  lifetime: 30m
