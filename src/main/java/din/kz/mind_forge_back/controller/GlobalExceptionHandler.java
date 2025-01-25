@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.security.sasl.AuthenticationException;
+import java.io.IOException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -21,8 +22,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ErrorResponse> applicationExceptionHandler(ApplicationException e) {
-        var  status = e.getResponseStatus() != null ? e.getResponseStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+        var status = e.getResponseStatus() != null ? e.getResponseStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
         var errorResponse = new ErrorResponse(e.getMessage(), status.value());
         return ResponseEntity.status(status).body(errorResponse);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(IOException.class)
+    public String ioExceptionHandler(IOException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(InterruptedException.class)
+    public String interruptedExceptionHandler(InterruptedException e) {
+        return e.getMessage();
     }
 }
