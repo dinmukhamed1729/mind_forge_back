@@ -38,4 +38,11 @@ public class GlobalExceptionHandler {
     public String interruptedExceptionHandler(InterruptedException e) {
         return e.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String IllegalArgumentExceptionHandler(InterruptedException e) {
+        return e.getMessage();
+    }
+
 }

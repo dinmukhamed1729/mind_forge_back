@@ -2,7 +2,10 @@ package din.kz.mind_forge_back.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -28,7 +31,10 @@ public class Task {
     private Set<Tag> tags;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TestCase> testCases;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<TestCase> testCases = new HashSet<>();
+
 
     private int timeLimit;
     private int memoryLimit;

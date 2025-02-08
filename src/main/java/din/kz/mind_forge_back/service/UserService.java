@@ -12,6 +12,7 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+
     public void createUser(User user) {
         user.setRoles(Set.of(roleService.getUserRole()));
         userRepository.save(user);
@@ -21,3 +22,4 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 }
+

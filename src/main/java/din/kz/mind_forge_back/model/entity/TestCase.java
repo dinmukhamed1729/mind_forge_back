@@ -2,6 +2,8 @@ package din.kz.mind_forge_back.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -13,6 +15,8 @@ public class TestCase {
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false)
+    @ToString.Exclude // Исключение из метода toString()
+    @EqualsAndHashCode.Exclude // Исключение из equals() и hashCode()
     private Task task;
 
     @Column(columnDefinition = "TEXT", nullable = false)

@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(target = "authorities",
-            source = "roles",
-            qualifiedByName = "mapRolesToAuthorities")
+    @Mapping(target = "authorities", source = "roles", qualifiedByName = "mapRolesToAuthorities")
     CustomUserDetails toCustomUserDetails(User user);
 
     @Named("mapRolesToAuthorities")
