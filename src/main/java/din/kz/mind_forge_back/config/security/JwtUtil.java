@@ -1,4 +1,4 @@
-package din.kz.mind_forge_back.security;
+package din.kz.mind_forge_back.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

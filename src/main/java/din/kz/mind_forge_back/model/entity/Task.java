@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,9 @@ public class Task {
     @Column(nullable = false, unique = true)
     private String title;
 
+    public Task() {
+    }
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -30,11 +34,10 @@ public class Task {
     @JoinTable(name = "task_tags", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<TestCase> testCases = new HashSet<>();
-
 
     private int timeLimit;
     private int memoryLimit;
@@ -44,5 +47,6 @@ public class Task {
 
     @Column(columnDefinition = "TEXT")
     private String outputFormat;
+
 }
 

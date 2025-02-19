@@ -1,4 +1,4 @@
-package din.kz.mind_forge_back.security;
+package din.kz.mind_forge_back.config.security;
 
 import din.kz.mind_forge_back.mapper.UserMapper;
 import din.kz.mind_forge_back.repository.UserRepository;

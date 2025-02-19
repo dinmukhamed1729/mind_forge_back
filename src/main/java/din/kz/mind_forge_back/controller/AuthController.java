@@ -5,8 +5,8 @@ import din.kz.mind_forge_back.model.request.AuthRequest;
 import din.kz.mind_forge_back.model.request.RegistrationRequest;
 import din.kz.mind_forge_back.model.response.AuthResponse;
 import din.kz.mind_forge_back.model.response.RegistrationResponse;
-import din.kz.mind_forge_back.security.CustomUserDetailsService;
-import din.kz.mind_forge_back.security.JwtUtil;
+import din.kz.mind_forge_back.config.security.CustomUserDetailsService;
+import din.kz.mind_forge_back.config.security.JwtUtil;
 import din.kz.mind_forge_back.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/")

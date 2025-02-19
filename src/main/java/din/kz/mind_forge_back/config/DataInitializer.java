@@ -9,8 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Component
@@ -18,7 +18,6 @@ public class DataInitializer implements CommandLineRunner {
 
     private final DifficultyRepository difficultyRepository;
     private final TagRepository tagRepository;
-
 
     @Override
     @Transactional
@@ -28,26 +27,14 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeDifficulties() {
-        List<String> defaultDifficulties = List.of("Easy", "Medium", "Hard");
-
-        for (String level : defaultDifficulties) {
-            if (difficultyRepository.findByLevel(level).isEmpty()) {
-                Difficulty difficulty = new Difficulty();
-                difficulty.setLevel(level);
-                difficultyRepository.save(difficulty);
-            }
-        }
+        Stream.of("Easy", "Medium", "Hard")
+                .filter(level -> difficultyRepository.findByLevel(level).isEmpty())
+                .map(Difficulty::new).forEach(difficultyRepository::save);
     }
 
     private void initializeTags() {
-        Set<String> defaultTags = Set.of("Math", "Greedy", "Dynamic Programming", "Graphs", "Strings");
-
-        for (String tagName : defaultTags) {
-            if (tagRepository.findByName(tagName).isEmpty()) {
-                Tag tag = new Tag();
-                tag.setName(tagName);
-                tagRepository.save(tag);
-            }
-        }
+        Set.of("Math", "Greedy", "Dynamic Programming", "Graphs", "Strings").stream()
+                .filter(tag -> tagRepository.findByName(tag).isEmpty())
+                .map(Tag::new).forEach(tagRepository::save);
     }
 }

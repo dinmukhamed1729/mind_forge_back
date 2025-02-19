@@ -4,7 +4,7 @@ import din.kz.mind_forge_back.model.entity.Role;
 import din.kz.mind_forge_back.model.entity.User;
 import din.kz.mind_forge_back.model.request.RegistrationRequest;
 import din.kz.mind_forge_back.model.response.RegistrationResponse;
-import din.kz.mind_forge_back.security.CustomUserDetails;
+import din.kz.mind_forge_back.config.security.CustomUserDetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

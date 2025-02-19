@@ -44,7 +44,7 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
         var absolutePath = filePath.toAbsolutePath().toString();
         return switch (fileType) {
             case "text/x-java-source" -> "java " + absolutePath;
-            case "application/octet-stream" -> "python " + absolutePath;
+            case "text/x-python" -> "python " + absolutePath;
             case "text/x-c++src" -> "g++ " + absolutePath;
             default -> throw new IllegalStateException("Unexpected value: " + fileType);
         };

@@ -3,6 +3,7 @@ package din.kz.mind_forge_back.mapper;
 
 import din.kz.mind_forge_back.model.dto.TestCaseDTO;
 import din.kz.mind_forge_back.model.entity.TestCase;
+import din.kz.mind_forge_back.model.response.TestCaseResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
