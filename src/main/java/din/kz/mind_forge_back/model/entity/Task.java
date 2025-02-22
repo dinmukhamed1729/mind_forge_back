@@ -1,27 +1,26 @@
 package din.kz.mind_forge_back.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
-
-    public Task() {
-    }
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -35,8 +34,7 @@ public class Task {
     private Set<Tag> tags;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<TestCase> testCases = new HashSet<>();
 
     private int timeLimit;
@@ -47,6 +45,4 @@ public class Task {
 
     @Column(columnDefinition = "TEXT")
     private String outputFormat;
-
 }
-

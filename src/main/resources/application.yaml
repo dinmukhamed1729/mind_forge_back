@@ -1,7 +1,9 @@
 server:
   port: 8080
 
+
 spring:
+
   application:
     name: mind_forge_back
   datasource:
@@ -17,7 +19,35 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+  security:
+    user:
+      name: admin
+      password: admin
+  data:
+    redis:
+      host: 172.17.0.4
+      port: 6379
+  boot:
+    admin:
+      client:
+        instance:
+          service-url: http://127.0.0.1:8080
+          management-url: http://127.0.0.1:8080/actuator
+          health-url: http://127.0.0.1:8080/actuator/health
+        url: http://127.0.0.1:8080/admin
+        auto-registration: true
+        enabled: true
+      context-path: /admin
 
+
+management:
+  endpoint:
+    health:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
 
 jwt:
   secret: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQD6qTgyB5J6uG6MzCh9ALlXLz8xOoQ6XpOm3W8hOvzg74kW7t7Pty5/DtsV04QJHdWuo96AwFZdI7yR

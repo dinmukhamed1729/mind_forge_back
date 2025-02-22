@@ -36,7 +36,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/registration")
     public RegistrationResponse register(@RequestBody RegistrationRequest registrationRequest) {
-        System.out.println(registrationRequest.getPassword() + " " + registrationRequest.getUsername());
+        System.out.println(registrationRequest.getUsername());
         return registrationService.registration(registrationRequest);
     }
 }

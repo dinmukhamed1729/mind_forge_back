@@ -15,9 +15,9 @@ public class CodeExecutionController {
     private final CodeExecutionService codeExecutionService;
 
     @PostMapping("/execute")
-    public String executeCode(@RequestParam("file") MultipartFile file) throws IOException, InterruptedException {
-        String s = codeExecutionService.executeCodeFromFile(file);
-        System.out.println(s);
-        return s;
+    public String executeCode(@RequestParam("file") MultipartFile file,
+                              @RequestParam("title") String title)
+            throws IOException, InterruptedException {
+        return codeExecutionService.executeCodeFromFile(file, title);
     }
 }

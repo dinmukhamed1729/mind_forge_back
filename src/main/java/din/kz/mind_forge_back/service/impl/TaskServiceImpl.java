@@ -1,7 +1,9 @@
 package din.kz.mind_forge_back.service.impl;
 
+import din.kz.mind_forge_back.exception.TaskNotFoundException;
 import din.kz.mind_forge_back.mapper.TaskMapper;
 import din.kz.mind_forge_back.model.entity.Task;
+import din.kz.mind_forge_back.model.entity.TestCase;
 import din.kz.mind_forge_back.model.request.CreateTaskRequest;
 import din.kz.mind_forge_back.model.response.ShortTaskResponse;
 import din.kz.mind_forge_back.repository.TaskRepository;
@@ -10,11 +12,13 @@ import din.kz.mind_forge_back.service.TagService;
 import din.kz.mind_forge_back.service.TaskService;
 import din.kz.mind_forge_back.service.TestCaseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -33,18 +37,30 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+
     public Page<ShortTaskResponse> getTasksWithRange(Pageable pageable) {
         return taskRepository.findAll(pageable).map(taskMapper::toShortTaskResponse);
     }
 
     @Override
+    @Cacheable(value = "taskWithPublicTestCases", key = "#title")
     public Optional<Task> getByTitleWithPublicTestCases(String title) {
-        return taskRepository.findByTitle(title)
+        System.out.println("getByTitleWithPublicTestCases " + title);
+        Optional<Task> task1 = taskRepository.findByTitle(title)
                 .map(task ->
                 {
                     task.setTestCases(testCaseService.getTestCasesWhithPublicTestCases(task.getId()));
                     return task;
                 });
+        System.out.println("getByTitleWithPublicTestCases " + task1.orElse(null));
+        return task1;
+    }
+
+    @Override
+    public Set<TestCase> getTaskTestCases(String taskName) {
+        return taskRepository.findByTitle(taskName)
+                .orElseThrow(TaskNotFoundException::new)
+                .getTestCases();
     }
 
     private void setTaskDependencies(CreateTaskRequest request, Task task) {

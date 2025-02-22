@@ -4,23 +4,21 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
+
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "test_cases")
-public class TestCase {
+public class TestCase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false)
-    @ToString.Exclude // Исключение из метода toString()
-    @EqualsAndHashCode.Exclude // Исключение из equals() и hashCode()
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Task task;
 
     @Column(columnDefinition = "TEXT", nullable = false)

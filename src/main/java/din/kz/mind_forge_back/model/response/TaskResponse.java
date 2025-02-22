@@ -1,7 +1,7 @@
 package din.kz.mind_forge_back.model.response;
+
 import lombok.Data;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,5 +15,5 @@ public class TaskResponse {
     private int memoryLimit;
     private String inputFormat;
     private String outputFormat;
-    private Set<TestCaseResponse> publicTestCases; // Список публичных тест-кейсов
+    private Set<TestCaseResponse> publicTestCases;
 }
