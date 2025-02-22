@@ -1,19 +1,8 @@
 package din.kz.mind_forge_back.model.response;
 
-import lombok.Data;
-
 import java.util.Set;
 
-@Data
-public class TaskResponse {
-    private Long id;
-    private String title;
-    private String description;
-    private String difficulty;
-    private Set<String> tags;
-    private int timeLimit;
-    private int memoryLimit;
-    private String inputFormat;
-    private String outputFormat;
-    private Set<TestCaseResponse> publicTestCases;
+public record TaskResponse(Long id, String title, String description, String difficulty, Set<String> tags,
+                           int timeLimit, int memoryLimit, String inputFormat, String outputFormat,
+                           Set<TestCaseResponse> publicTestCases) {
 }

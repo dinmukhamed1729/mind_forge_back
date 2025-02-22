@@ -9,11 +9,13 @@ import din.kz.mind_forge_back.config.security.CustomUserDetailsService;
 import din.kz.mind_forge_back.config.security.JwtUtil;
 import din.kz.mind_forge_back.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/")
@@ -27,8 +29,8 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/login")
     public AuthResponse authenticate(@RequestBody AuthRequest authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        var user = userDetailsService.loadUserByUsername(authRequest.getUsername());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password()));
+        var user = userDetailsService.loadUserByUsername(authRequest.username());
         var token = jwtUtil.generateToken(user);
         return new AuthResponse(token);
     }
@@ -36,7 +38,6 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/registration")
     public RegistrationResponse register(@RequestBody RegistrationRequest registrationRequest) {
-        System.out.println(registrationRequest.getUsername());
         return registrationService.registration(registrationRequest);
     }
 }

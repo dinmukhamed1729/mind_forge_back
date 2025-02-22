@@ -12,6 +12,7 @@ import din.kz.mind_forge_back.service.TagService;
 import din.kz.mind_forge_back.service.TaskService;
 import din.kz.mind_forge_back.service.TestCaseService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -45,15 +47,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Cacheable(value = "taskWithPublicTestCases", key = "#title")
     public Optional<Task> getByTitleWithPublicTestCases(String title) {
-        System.out.println("getByTitleWithPublicTestCases " + title);
-        Optional<Task> task1 = taskRepository.findByTitle(title)
+        return taskRepository.findByTitle(title)
                 .map(task ->
                 {
                     task.setTestCases(testCaseService.getTestCasesWhithPublicTestCases(task.getId()));
                     return task;
                 });
-        System.out.println("getByTitleWithPublicTestCases " + task1.orElse(null));
-        return task1;
     }
 
     @Override
@@ -64,9 +63,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private void setTaskDependencies(CreateTaskRequest request, Task task) {
-        var difficulty = difficultlyService.findDifficultly(request.getDifficulty());
-        var persistedTags = tagService.findOrCreateTags(request.getTags());
-
+        var difficulty = difficultlyService.findDifficultly(request.difficulty());
+        var persistedTags = tagService.findOrCreateTags(request.tags());
         task.setDifficulty(difficulty);
         task.setTags(persistedTags);
         task.getTestCases().forEach(t -> t.setTask(task));

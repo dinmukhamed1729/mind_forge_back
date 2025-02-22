@@ -6,12 +6,14 @@ import din.kz.mind_forge_back.model.response.ShortTaskResponse;
 import din.kz.mind_forge_back.model.response.TaskResponse;
 import din.kz.mind_forge_back.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
@@ -19,7 +21,6 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/task")
     public ShortTaskResponse createTask(@RequestBody CreateTaskRequest request) {
@@ -34,7 +35,7 @@ public class TaskController {
 
     @GetMapping("/task/{title}")
     public ResponseEntity<TaskResponse> getTaskByTitle(@PathVariable String title) {
-        System.out.println("title: " + title);
+        log.info("getByTitleWithPublicTestCases called by title {}", title);
         return taskService.getByTitleWithPublicTestCases(title)
                 .map(taskMapper::toTaskResponse)
                 .map(ResponseEntity::ok)

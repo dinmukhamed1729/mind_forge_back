@@ -7,9 +7,11 @@ import din.kz.mind_forge_back.model.entity.User;
 import din.kz.mind_forge_back.model.request.RegistrationRequest;
 import din.kz.mind_forge_back.model.response.RegistrationResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RegistrationService {
@@ -19,14 +21,14 @@ public class RegistrationService {
 
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
 
-        System.out.println("Registration request: " + registrationRequest);
+        log.info("Registration request username: {}", registrationRequest.getUsername());
         if (!registrationRequest.getPassword().equals(registrationRequest.getConfirmPassword())) {
             throw new PasswordMismatchException();
         }
-         if (userService.userWithUsernameExist(registrationRequest.getUsername())) {
+        if (userService.userWithUsernameExist(registrationRequest.getUsername())) {
             throw new UserAlreadyExistsException();
         }
-        User user = userMapper.registrationRequestToUser(registrationRequest);
+        var user = userMapper.registrationRequestToUser(registrationRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.createUser(user);
         return userMapper.toRegistrationResponse(user);

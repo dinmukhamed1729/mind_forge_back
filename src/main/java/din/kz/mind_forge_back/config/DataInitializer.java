@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import din.kz.mind_forge_back.model.entity.Role;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -30,21 +31,34 @@ public class DataInitializer implements CommandLineRunner {
         initializeRole();
     }
 
+
+
     private void initializeRole() {
-        Stream.of("USER", "ADMIN")
-                .filter(role -> !roleRepository.existsByName(role))
-                .map(Role::new).forEach(roleRepository::save);
+        if (roleRepository.count() == 0) {
+            List<Role> roles = Stream.of("USER", "ADMIN")
+                    .map(Role::new)
+                    .toList();
+            roleRepository.saveAll(roles);
+        }
     }
 
     private void initializeDifficulties() {
-        Stream.of("Easy", "Medium", "Hard")
-                .filter(level -> difficultyRepository.findByLevel(level).isEmpty())
-                .map(Difficulty::new).forEach(difficultyRepository::save);
+        if (difficultyRepository.count() == 0) {
+            List<Difficulty> difficulties = Stream.of("Easy", "Medium", "Hard")
+                    .map(Difficulty::new)
+                    .toList();
+            difficultyRepository.saveAll(difficulties);
+        }
     }
 
     private void initializeTags() {
-        Set.of("Math", "Greedy", "Dynamic Programming", "Graphs", "Strings").stream()
-                .filter(tag -> tagRepository.findByName(tag).isEmpty())
-                .map(Tag::new).forEach(tagRepository::save);
+        if (tagRepository.count() == 0) {
+            List<Tag> tags = Set.of("Math", "Greedy", "Dynamic Programming", "Graphs", "Strings").stream()
+                    .map(Tag::new)
+                    .toList();
+            tagRepository.saveAll(tags);
+        }
     }
+
+
 }
